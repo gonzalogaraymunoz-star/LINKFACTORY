@@ -5,3 +5,13 @@
 .brand-lockup{align-items:center!important}
 .brand-lockup::before{content:"";display:block;width:30px;height:30px;flex:0 0 30px;background:url('/icon.svg') center/contain no-repeat}
 .brand-lockup b{text-transform:uppercase;letter-spacing:.015em}
+
+/* Construction generation sheet */
+.generation-sheet{border:1px solid #ddd8ce;background:#f8f6f0;border-radius:18px;padding:15px;margin-bottom:18px}
+.generation-sheet>header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid #e3dfd6}
+.generation-sheet>header>div{display:grid;gap:3px}.generation-sheet>header span,.request-box small,.latest-edit small,.data-cell small{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8b867c}.generation-sheet>header b{font-size:12px}.generation-sheet>header em{font-style:normal;font-size:10px;border:1px solid #d5d0c7;background:#fff;border-radius:999px;padding:5px 8px}
+.generation-sheet>h2{font-size:19px;line-height:1.15;letter-spacing:-.035em;margin:16px 0 14px;font-weight:750}
+.request-box{background:#fff;border:1px solid #e1ddd4;border-radius:14px;padding:12px;margin-bottom:12px}.request-box p{font-size:12px;line-height:1.5;margin:6px 0 0;white-space:pre-wrap;color:#3f3b35}.request-box.empty-request{background:#f0ede6}.request-box.empty-request p{color:#7b766d}
+.generation-data{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid #e1ddd4;border-radius:14px;overflow:hidden;background:#fff}.data-cell{min-width:0;padding:10px;border-right:1px solid #eeeae3;border-bottom:1px solid #eeeae3;display:grid;gap:3px}.data-cell:nth-child(2n){border-right:0}.data-cell b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.latest-edit{margin-top:12px;border-left:3px solid #111;padding:10px 12px;background:#fff;border-radius:0 12px 12px 0;display:grid;gap:5px}.latest-edit b{font-size:12px}.latest-edit p{font-size:11px;line-height:1.45;margin:0;color:#58534b;max-height:70px;overflow:auto}.latest-edit span{font-size:9px;color:#8a857b}
+@media(max-width:900px){.generation-data{grid-template-columns:1fr}.data-cell{border-right:0}.generation-sheet>h2{font-size:18px}}
