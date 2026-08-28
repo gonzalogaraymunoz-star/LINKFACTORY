@@ -1,1 +1,7 @@
 *{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100%;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+
+/* LINK Factory brand system */
+.factory-logo{border-radius:0!important;background:#050505 url('/icon.svg') center/100% 100% no-repeat!important;color:transparent!important;font-size:0!important;overflow:hidden}
+.brand-lockup{align-items:center!important}
+.brand-lockup::before{content:"";display:block;width:30px;height:30px;flex:0 0 30px;background:url('/icon.svg') center/contain no-repeat}
+.brand-lockup b{text-transform:uppercase;letter-spacing:.015em}
