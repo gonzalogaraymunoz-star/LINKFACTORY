@@ -74,9 +74,14 @@ export async function GET(){
   const versions=designIds.length?await db.from('design_versions').select('id,design_id,version_number,change_summary,created_at,metadata').in('design_id',designIds).order('version_number',{ascending:false}):{data:[]};
   const out=(projects||[]).map((p:any)=>{
     const design=(designs.data||[]).filter((d:any)=>d.project_id===p.id).sort((a:any,b:any)=>String(b.updated_at).localeCompare(String(a.updated_at)))[0]||null;
+    const approvedVersion=Number(design?.metadata?.approved_version||0)||null;
     return {
-      id:p.id,name:p.name,slug:p.slug,product_type:p.metadata?.product_type||'graphic',description:p.description,status:p.phase||p.status,
+      id:p.id,name:p.name,slug:p.slug,parent_id:p.parent_id||null,client_id:p.client_id||null,
+      product_type:p.metadata?.product_type||'graphic',description:p.description,status:p.phase||p.status,
+      library_group:p.metadata?.library_group||null,library_role:p.metadata?.library_role||null,
+      chatgpt_project_name:p.metadata?.chatgpt_project_name||null,chatgpt_link_status:p.metadata?.chatgpt_link_status||null,
       design_id:design?.id||null,current_version:design?.current_version||0,design_status:design?.status||'missing',
+      approved_version:approvedVersion,approved_url:approvedVersion?`/p/${p.slug}`:null,
       internal_preview_url:design?`/api/preview/${p.id}`:null,
       links:(integrations.data||[]).filter((x:any)=>x.project_id===p.id).map((x:any)=>({id:x.id,provider:x.metadata?.provider_alias||x.provider,link_type:x.metadata?.link_type||x.environment||'link',label:x.label,url:x.url,status:normalizedLinkStatus(x.status),verified_at:x.metadata?.verified_at||x.last_checked_at||null})),
       businesses:(relations.data||[]).filter((x:any)=>x.source_key===p.id && ['business_ref','client'].includes(x.target_type)).map((x:any)=>({business_key:x.target_key,business_name:x.label||x.metadata?.business_name||x.target_key,relation_role:x.relation,control_id:x.control_id||null})),
@@ -141,7 +146,7 @@ export async function POST(req:Request){
       const productId=String(body.product_id); const {data:design,error}=await db.from('design_previews').select('*').eq('project_id',productId).eq('creation_type','factory_html').order('updated_at',{ascending:false}).limit(1).single(); if(error) throw error;
       const now=new Date().toISOString(); await db.from('design_previews').update({status:'approved',metadata:{...(design.metadata||{}),approved_version:design.current_version,approved_at:now}}).eq('id',design.id);
       await db.from('projects').update({phase:'approved',updated_at:now}).eq('id',productId);
-      await logEvent(db,controlId,'factory.version.approved',productId,{design_id:design.id,version:design.current_version}); return NextResponse.json({ok:true,version:design.current_version});
+      await logEvent(db,controlId,'factory.version.approved',productId,{design_id:design.id,version:design.current_version}); return NextResponse.json({ok:true,version:design.current_version,approved_url:`/p/${design.slug.replace(/-factory$/,'')}`});
     }
     if(action==='restore_version'){
       const productId=String(body.product_id); const versionNumber=Number(body.version_number); const {data:design,error}=await db.from('design_previews').select('*').eq('project_id',productId).eq('creation_type','factory_html').order('updated_at',{ascending:false}).limit(1).single(); if(error) throw error;
