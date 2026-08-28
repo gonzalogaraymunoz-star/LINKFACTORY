@@ -1,2 +1,2 @@
-import FactoryClient from "./FactoryClient";
-export default function FactoryPage(){ return <FactoryClient/>; }
+import FactoryClientV2 from "./FactoryClientV2";
+export default function FactoryPage(){ return <FactoryClientV2/>; }
